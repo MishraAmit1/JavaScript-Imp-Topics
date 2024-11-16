@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Form</title>
+</head>
+
+<body>
+  <h1>User Information Form</h1>
+  <form id="userForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    // Your JavaScript code
+    const form = document.getElementById("userForm");
+    const nameInput = document.getElementById("name");
+
+    // Load saved data
+    nameInput.value = localStorage.getItem("name") || "";
+
+    // Save data on input
+    nameInput.addEventListener("input", () => {
+      localStorage.setItem("name", nameInput.value);
+    });
+  </script>
+</body>
+
+</html>

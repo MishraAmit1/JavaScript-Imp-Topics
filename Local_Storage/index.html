@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Storage in JavaScript</title>
+</head>
+
+<body>
+  <script>
+    // 1. Storing and Retrieving Data
+    // Store a value
+    localStorage.setItem("username", "Amit");
+
+    // Retrieve the value
+    const username = localStorage.getItem("username");
+    console.log(username); // Output: Amit
+
+    // 2. Removing Specific Data
+    localStorage.setItem("theme", "dark");
+    console.log(localStorage.getItem("theme")); // Output: dark
+
+    // Remove the key "theme"
+    localStorage.removeItem("theme");
+    console.log(localStorage.getItem("theme")); // Output: null
+
+    // 3. Clearing All Data
+    localStorage.setItem("user", "John");
+    localStorage.setItem("age", "25");
+
+    // Clear all LocalStorage data
+    localStorage.clear();
+
+    console.log(localStorage.getItem("user")); // Output: null
+    console.log(localStorage.getItem("age")); // Output: null
+
+    // 4. localStorage.key(index)
+
+    // Storing data in localStorage
+    localStorage.setItem('name', 'Amit');
+    localStorage.setItem('age', '25');
+    localStorage.setItem('country', 'India');
+
+    // Using localStorage.key() to get keys by index
+    console.log(localStorage.key(0));  // Output: 'name'
+    console.log(localStorage.key(1));  // Output: 'age'
+    console.log(localStorage.key(2));  // Output: 'country'
+
+    // 5.  Storing Objects and Arrays
+
+    // LocalStorage only stores strings, so you need to use JSON.stringify() for objects / arrays and JSON.parse() to retrieve them.
+
+    // Store an object
+    const user = { name: "Amit", age: 25 };
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Retrieve the object
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    console.log(storedUser.name); // Output: Amit
+    console.log(storedUser.age); // Output: 25
+
+    //     6. Iterating Through LocalStorage
+    // You can loop through all keys in LocalStorage using a for loop or Object.keys().
+    // Add data
+    localStorage.setItem("name", "Amit");
+    localStorage.setItem("age", "25");
+
+    // Loop through keys
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      console.log(`${key}: ${localStorage.getItem(key)}`);
+    }
+
+    // Output:
+    // name: Amit
+    // age: 25
+
+  </script>
+</body>
+
+</html>
