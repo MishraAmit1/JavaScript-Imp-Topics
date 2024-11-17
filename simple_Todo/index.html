@@ -135,10 +135,46 @@
     <h2>Your Todo's</h2>
   </div>
   <script>
+
     const inputName = document.getElementById("inputName");
     const addTodo = document.getElementById("addTodo");
     const todoList = document.querySelector(".todoList"); // Corrected to select the actual element
 
+    // Load existing todos from localStorage or initialize an empty array
+    let arr = JSON.parse(localStorage.getItem("todos")) || [];
+
+    // Render all todos
+    const renderTodos = () => {
+      todoList.innerHTML = "<h2>Your Todos</h2>"; // Clear the list and add heading
+
+      arr.forEach((todoText, index) => {
+        // Create the todo item container
+        const todoItem = document.createElement("div");
+        todoItem.classList.add("todoItem");
+
+        // Create the text for the todo item
+        const todoTextNode = document.createElement("span");
+        todoTextNode.textContent = todoText;
+
+        // Create the delete button
+        const deleteTask = document.createElement("button");
+        deleteTask.textContent = "Delete";
+
+        // Add event listener to delete the task
+        deleteTask.addEventListener("click", () => {
+          arr.splice(index, 1); // Remove the task from the array
+          localStorage.setItem("todos", JSON.stringify(arr)); // Update localStorage
+          renderTodos(); // Re-render the updated list
+        });
+
+        // Append the text and delete button to the todo item
+        todoItem.appendChild(todoTextNode);
+        todoItem.appendChild(deleteTask);
+
+        // Append the todo item to the todo list
+        todoList.appendChild(todoItem);
+      });
+    };
     const addTodoElement = () => {
       const todoText = inputName.value.trim(); // Trim to prevent empty or whitespace-only tasks
 
@@ -146,38 +182,21 @@
         alert("Please enter a task!"); // Prevent empty tasks
         return;
       }
-
-      // Create the todo item container
-      const todoItem = document.createElement("div");
-      todoItem.classList.add("todoItem");
-
-      // Create the text for the todo item
-      const todoTextNode = document.createElement("span");
-      todoTextNode.textContent = todoText;
-
-      // Create the delete button
-      const deleteTask = document.createElement("button");
-      deleteTask.textContent = "Delete";
-
-      // Add event listener to delete the task
-      deleteTask.addEventListener("click", () => {
-        todoItem.remove(); // Remove the todo item from the list
-      });
-
-      // Append the text and delete button to the todo item
-      todoItem.appendChild(todoTextNode);
-      todoItem.appendChild(deleteTask);
-
-      // Append the todo item to the todo list
-      todoList.appendChild(todoItem);
-
-      // Clear the input field after adding the task
+      arr.push(todoText);
+      localStorage.setItem("todos", JSON.stringify(arr));
+      renderTodos();
       inputName.value = "";
+
     };
+    renderTodos();
 
     // Add event listener to the "Add Todo" button
     addTodo.addEventListener("click", addTodoElement);
-
+    inputName.addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        addTodoElement();
+      }
+    });
   </script>
 </body>
 
