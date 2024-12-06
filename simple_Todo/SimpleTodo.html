@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo App</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px;
+      /* height: 100vh; */
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px 30px;
+      width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      color: #007acc;
+      margin-bottom: 1.5rem;
+    }
+
+    #form-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      flex: 1;
+      /* width: 100%; */
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+
+    input:focus {
+      outline: none;
+      border-color: #007acc;
+    }
+
+
+    button {
+      background-color: #007acc;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+
+    .todoItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+
+
+    .todoItem p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+
+    .deleteBtn {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background-color: #e60000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Todo App</h1>
+    <form id="form-container">
+      <input type="text" id="inputTodo">
+      <button id="addTodo">Add</button>
+    </form>
+    <div id="todoListItem">
+      <!-- here the list of item -->
+    </div>
+  </div>
+  <script>
+    const inputTodo = document.getElementById("inputTodo");
+    const addTodo = document.getElementById("addTodo");
+    const todoListItem = document.getElementById("todoListItem");
+
+    const todoAddFunction = (e) => {
+      e.preventDefault();
+      if (inputTodo.value === "") {
+        alert("Please first Input a Todo to Add")
+      }
+      const message = inputTodo.value;
+      // create a div for list of item
+      const newElement = document.createElement("div");
+      newElement.classList.add("todoItem");
+
+      // Inside a div create the elements 
+      const todoElement = document.createElement("p");
+      todoElement.classList.add("listOfItem");
+      todoElement.innerText = inputTodo.value;
+      // create a button to delete the item 
+      const deleteBtn = document.createElement("button");
+      todoElement.classList.add("deleteBtn");
+      deleteBtn.innerText = "Delete"
+      deleteBtn.addEventListener("click", function () {
+        todoListItem.removeChild(newElement);
+      })
+
+
+      newElement.appendChild(todoElement);
+      newElement.appendChild(deleteBtn);
+      todoListItem.appendChild(newElement);
+
+
+
+    }
+    inputTodo.value = localStorage.getItem("todoName") || "";
+    inputTodo.addEventListener("input", () => {
+      localStorage.setItem("todoName", inputTodo.value);
+    })
+    addTodo.addEventListener("click", todoAddFunction);
+  </script>
+</body>
+
+</html>
