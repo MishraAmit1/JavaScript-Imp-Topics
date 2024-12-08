@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improved Timer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        #mainValue {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        #getUpdatedTime {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+        #getUpdatedTime p {
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="mainValue">0</p>
+
+    <div class="button-container">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="reset">Reset</button>
+        <button id="gettime">Get Time</button>
+        <button id="clearTime">Clear Time</button>
+    </div>
+
+    <div id="getUpdatedTime"></div>
+
+    <script>
+        const mainValue = document.getElementById("mainValue");
+        const getUpdatedTime = document.getElementById("getUpdatedTime");
+        const start = document.getElementById("start");
+        const stop = document.getElementById("stop");
+        const reset = document.getElementById("reset");
+        const gettime = document.getElementById("gettime");
+        const clearTime = document.getElementById("clearTime");
+        let timer = 0;
+        let newTimer;
+
+        const startTimer = () => {
+            newTimer = setInterval(() => {
+                timer += 1;
+                mainValue.innerText = `${timer}`;
+            }, 1000);
+        };
+        start.addEventListener("click", startTimer);
+
+        stop.addEventListener("click", () => {
+            clearInterval(newTimer);
+        });
+
+        reset.addEventListener("click", () => {
+            timer = 0;
+            mainValue.innerText = timer;
+            clearInterval(newTimer);
+        });
+
+        gettime.addEventListener("click", () => {
+            const newUpdatedTimer = document.createElement("p");
+            newUpdatedTimer.innerText = `Stop Time: ${timer}`;
+            getUpdatedTime.appendChild(newUpdatedTimer);
+        });
+
+        clearTime.addEventListener("click", () => {
+            timer = 0;
+            mainValue.innerText = timer;
+            getUpdatedTime.innerHTML = "";
+            clearInterval(newTimer);
+        });
+    </script>
+</body>
+
+</html>
