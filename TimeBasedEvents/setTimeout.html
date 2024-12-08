@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setTimeoutExample</title>
+</head>
+
+<body>
+    <h1> The SetTimeout Example with ClearTimeout</h1>
+    <button onclick="startTimeout()">Click Me to Start Timeout</button>
+    <button onclick="cancelTimeout()">Click Me to Cancel Timeout</button>
+    <p id="showMessage">This message will be replaced after 5 seconds unless canceled.</p>
+
+    <script>
+        const showMessage = document.getElementById("showMessage");
+        let timeoutId;
+
+        function startTimeout() {
+            if (timeoutId) clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
+                showMessage.innerText = "This is not magic; this is called JavaScript Magic";
+            }, 5000);
+        }
+
+        function cancelTimeout() {
+            clearTimeout(timeoutId);
+            showMessage.innerText = "Timeout canceled! The message will not update.";
+        }
+
+        // This is the first method of using setTimeout function in Js
+        // function setTimeoutExample() {
+        // console.log("This message is show after 5 seconds");
+        // }
+        // setTimeout(setTimeoutExample, 5000);
+    </script>
+</body>
+
+
+
+</html>
