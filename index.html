@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Todo Application</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Container Styling */
+    #container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      width: 450px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form Styling */
+    #form-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      flex-grow: 1;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff758c;
+      box-shadow: 0px 0px 5px rgba(255, 117, 140, 0.5);
+    }
+
+    #addTodoBtn {
+      padding: 12px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      background-color: #ff758c;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #addTodoBtn:hover {
+      background-color: #ff4c72;
+    }
+
+    /* Error Message Styling */
+    #errorMessage {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+      margin-top: -10px;
+    }
+
+    /* Todo List Styling */
+    #todoListHere .todoListItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    #todoListHere .todoListItem:hover {
+      background-color: #fff5f8;
+      border-color: #ff758c;
+    }
+
+    .todoItem {
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .deleteBtn {
+      padding: 8px 12px;
+      border: none;
+      font-size: 14px;
+      border-radius: 8px;
+      background-color: #ff4c72;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .deleteBtn:hover {
+      background-color: #ff203f;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Todo App</h1>
+    <form id="form-container">
+      <input type="text" id="inputName" placeholder="Add a new task..." />
+      <button type="button" id="addTodoBtn">Add</button>
+    </form>
+
+    <div id="todoListHere">
+      <!--  here is the list  -->
+    </div>
+    <p id="errorMessage"></p>
+  </div>
+  <script>
+    const inputName = document.getElementById("inputName");
+    const addTodoBtn = document.getElementById("addTodoBtn");
+    const todoListHere = document.getElementById("todoListHere");
+    const errorMessage = document.getElementById("errorMessage");
+
+    let todoAll = JSON.parse(localStorage.getItem("myAmsTodos")) || [];
+
+    const createElementFunction = () => {
+      todoListHere.innerHTML = "";
+      todoAll.forEach((element) => {
+        const createElement = document.createElement("div");
+        createElement.classList.add("todoListItem");
+
+        const createParagraph = document.createElement("p");
+        createParagraph.classList.add("todoItem");
+        createParagraph.innerText = element;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.classList.add("deleteBtn");
+        deleteBtn.innerText = "Delete";
+        deleteBtn.addEventListener("click", () => {
+          const index = todoAll.indexOf(element);
+          if (index > -1) {
+            todoAll.splice(index, 1);
+            localStorage.setItem("myAmsTodos", JSON.stringify(todoAll));
+            createElementFunction();
+          }
+        });
+
+        todoListHere.appendChild(createElement);
+        createElement.appendChild(createParagraph);
+        createElement.appendChild(deleteBtn);
+      });
+    };
+
+    const addTodoFunction = (e) => {
+      e.preventDefault();
+      const inputText = inputName.value.trim();
+
+      if (inputText === "") {
+        errorMessage.textContent = "Please write something!";
+        return;
+      }
+      if (todoAll.includes(inputText)) {
+        errorMessage.textContent = "This task is already added!";
+        inputName.value = "";
+        return;
+      }
+
+      errorMessage.textContent = "";
+      todoAll.push(inputText);
+      localStorage.setItem("myAmsTodos", JSON.stringify(todoAll));
+      createElementFunction();
+      inputName.value = "";
+    };
+
+    createElementFunction();
+    addTodoBtn.addEventListener("click", addTodoFunction);
+    inputName.addEventListener("input", () => {
+      errorMessage.textContent = "";
+    });
+  </script>
+</body>
+
+</html>
